@@ -6,6 +6,8 @@ SPDX-License-Identifier: Apache-2.0
 
 # @smoothtml/vite-plugin-sri
 
+[![REUSE status](https://api.reuse.software/badge/github.com/smoothtml/vite-plugin-sri)](https://api.reuse.software/info/github.com/smoothtml/vite-plugin-sri)
+
 Vite plugin that adds Subresource Integrity (SRI) hashes to scripts and
 stylesheets in built HTML.
 
