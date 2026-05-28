@@ -4,3 +4,6 @@
 
 # pnpm lockfile
 pnpm-lock.yaml
+
+# Changelog: bot-written, don't reformat
+CHANGELOG.md

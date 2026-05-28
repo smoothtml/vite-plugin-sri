@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2026 Rishvic Pushpakaran
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version = 1
+
+[[annotations]]
+path = ["CHANGELOG.md", ".changeset/*.md"]
+SPDX-FileCopyrightText = "2026 The @smoothtml/vite-plugin-sri contributors"
+SPDX-License-Identifier = "Apache-2.0"
