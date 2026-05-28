@@ -1,5 +1,9 @@
-@smoothtml/vite-sri-plugin
+@smoothtml/vite-plugin-sri
 Copyright 2026 Rishvic Pushpakaran.
 
 This product includes software developed by
 Rishvic Pushpakaran <rishvic@gmail.com>.
+
+Portions derived from Vite (https://github.com/vitejs/vite),
+copyright (c) 2019-present, VoidZero Inc. and Vite contributors,
+licensed under MIT. See SPDX headers in the affected files.

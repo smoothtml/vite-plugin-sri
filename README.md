@@ -43,6 +43,15 @@ The plugin only runs during `vite build` (no-op during `vite serve`).
   (follows the
   [W3C SRI specification's recommended baseline](https://www.w3.org/TR/sri/#hash-collision-attacks)).
 
+## Acknowledgments
+
+This plugin includes code adapted from [Vite](https://github.com/vitejs/vite) (©
+2019-present, VoidZero Inc. and Vite contributors, MIT-licensed). Specifically,
+`src/html.ts` and `src/utils.ts` are derived from
+`packages/vite/src/node/plugins/html.ts` and `packages/vite/src/node/utils.ts`
+respectively. See the SPDX headers in those files and [`NOTICE`](./NOTICE) for
+details.
+
 ## License
 
 [Apache-2.0](./LICENSE)
