@@ -50,5 +50,3 @@ jobs:
           publish: pnpm release
           title: "chore: version packages"
           commit: "chore: version packages"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
