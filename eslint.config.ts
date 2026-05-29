@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { fileURLToPath } from "node:url";
+import { fileURLToPath } from "url";
 import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";

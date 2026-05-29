@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import { createHash } from "node:crypto";
-import path from "node:path";
+import { createHash } from "crypto";
+import path from "path";
 import MagicString from "magic-string";
 import colors from "picocolors";
 import { nodeIsElement, traverseHtml } from "./html.ts";
