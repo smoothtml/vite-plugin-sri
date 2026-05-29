@@ -11,9 +11,8 @@ SPDX-License-Identifier: Apache-2.0
 Vite plugin that adds Subresource Integrity (SRI) hashes to scripts and
 stylesheets in built HTML.
 
-> **Status:** early scaffold. The plugin registers a `transformIndexHtml` hook
-> with `apply: "build"`, but the integrity-injection logic is not yet
-> implemented. Not ready for production use.
+> **Status:** early release (`0.x`). SRI injection works during `vite build`,
+> but the API may still change before `1.0`.
 
 ## Install
 

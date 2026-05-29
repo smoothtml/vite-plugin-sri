@@ -7,3 +7,6 @@ pnpm-lock.yaml
 
 # Changelog: bot-written, don't reformat
 CHANGELOG.md
+
+# Changeset summaries: keep each on one line (don't let prose-wrap fold them)
+.changeset/*.md
