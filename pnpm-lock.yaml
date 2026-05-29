@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       magic-string:
-        specifier: ^0.30.21
+        specifier: 0.30.21
         version: 0.30.21
       parse5:
         specifier: ^8.0.1
