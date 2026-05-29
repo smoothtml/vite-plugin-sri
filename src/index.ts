@@ -11,7 +11,7 @@ export interface SriPluginOptions {
 
 export default function sriPlugin({
   hashAlgorithm = "sha384",
-}: SriPluginOptions = {}) {
+}: SriPluginOptions = {}): Plugin {
   let config: ResolvedConfig;
 
   return {
@@ -39,5 +39,5 @@ export default function sriPlugin({
         });
       },
     },
-  } satisfies Plugin;
+  };
 }
