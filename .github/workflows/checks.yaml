@@ -51,3 +51,7 @@ jobs:
       - name: Lint Types
         if: ${{ !cancelled() && steps.install.conclusion == 'success' }}
         run: pnpm run lint:types
+
+      - name: Run Tests
+        if: ${{ !cancelled() && steps.install.conclusion == 'success' }}
+        run: pnpm run test

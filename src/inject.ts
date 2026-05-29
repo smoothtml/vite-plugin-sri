@@ -102,10 +102,20 @@ export async function injectSri(
   return s.toString();
 }
 
-function isSriEligibleRel(rel: string) {
-  const cleanRel = rel.trim().toLowerCase();
-  if (cleanRel === "preload" || cleanRel === "modulepreload") {
-    return true;
-  }
-  return cleanRel.split(/\s+/).some((v) => v === "stylesheet");
+/**
+ * Checks whether a `rel` attribute value contains at least one keyword that
+ * makes a `<link>` element eligible for SRI integrity injection.
+ *
+ * @see https://html.spec.whatwg.org/commit-snapshots/56ec62263c25df7c98382f17dff5d00b915e7ca2/#the-link-element
+ * @param rel - The `rel` attribute value.
+ * @returns `true` if any keyword is SRI-eligible, `false` otherwise.
+ */
+export function isSriEligibleRel(rel: string) {
+  const acceptedKeywords = ["stylesheet", "preload", "modulepreload"];
+  return rel
+    .split(/[\t\n\f\r ]+/)
+    .filter(Boolean)
+    .some((v) =>
+      acceptedKeywords.includes(v.replace(/[A-Z]/g, (c) => c.toLowerCase())),
+    );
 }
