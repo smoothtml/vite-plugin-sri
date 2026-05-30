@@ -36,7 +36,10 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "dist"
+    "dist",
+    "NOTICE",
+    "CHANGELOG.md",
+    "THIRD-PARTY-NOTICES.txt"
   ],
   "sideEffects": false,
   "scripts": {

@@ -4,6 +4,8 @@
 
 import { defineConfig } from "tsdown";
 
+// Deps are externalized, not bundled. If you bundle one into dist/, add its
+// attribution to THIRD-PARTY-NOTICES.txt - nothing else enforces this.
 export default defineConfig({
   entry: "src/index.ts",
   format: ["esm", "cjs"],

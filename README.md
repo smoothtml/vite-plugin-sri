@@ -48,8 +48,8 @@ This plugin includes code adapted from [Vite](https://github.com/vitejs/vite) (Â
 2019-present, VoidZero Inc. and Vite contributors, MIT-licensed). Specifically,
 `src/html.ts` and `src/utils.ts` are derived from
 `packages/vite/src/node/plugins/html.ts` and `packages/vite/src/node/utils.ts`
-respectively. See the SPDX headers in those files and [`NOTICE`](./NOTICE) for
-details.
+respectively. See the SPDX headers in those files and
+[`THIRD-PARTY-NOTICES.txt`](./THIRD-PARTY-NOTICES.txt) for details.
 
 ## License
 
