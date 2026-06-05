@@ -65,10 +65,26 @@ export async function injectSri(
     }
 
     // Sanitize empty pathnames, so paths are always absolute.
-    const basePath = baseUrl.pathname || "/";
-    const assetPath = assetUrl.pathname || "/";
+    let basePath: string, assetPath: string;
+    try {
+      basePath = decodeURI(baseUrl.pathname) || "/";
+      assetPath = decodeURI(assetUrl.pathname) || "/";
+    } catch (e) {
+      if (e instanceof URIError) {
+        opts.warn(
+          colors.yellow(
+            `\nInvalid URI (base: ${baseUrl.pathname}, asset: ${assetUrl.pathname}), skipping...`,
+          ),
+        );
+        return;
+      }
+      // Unknown error, rethrow.
+      throw new Error("Error while decoding base URL and asset URL", {
+        cause: e,
+      });
+    }
 
-    const assetFilePath = path.relative(basePath, assetPath);
+    const assetFilePath = path.posix.relative(basePath, assetPath);
     const asset = opts.bundle[assetFilePath];
     if (!asset) {
       opts.warn(
