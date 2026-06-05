@@ -1,7 +1,7 @@
 {
   "name": "@smoothtml/vite-plugin-sri",
   "type": "module",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Vite plugin that adds Subresource Integrity (SRI) hashes to scripts and stylesheets in built HTML.",
   "keywords": [
     "vite-plugin",

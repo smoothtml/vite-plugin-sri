@@ -1,5 +1,27 @@
 # @smoothtml/vite-plugin-sri
 
+## 0.3.0
+
+### Minor Changes
+
+- [#13](https://github.com/smoothtml/vite-plugin-sri/pull/13)
+  [`527aa3e`](https://github.com/smoothtml/vite-plugin-sri/commit/527aa3e35343a14fe4bb2c248005975d8c07128d)
+  Thanks [@rishvic](https://github.com/rishvic)! - Add SRI hashes to elements
+  that already have an `integrity` attribute, preserving existing hashes.
+
+### Patch Changes
+
+- [#13](https://github.com/smoothtml/vite-plugin-sri/pull/13)
+  [`daaecd2`](https://github.com/smoothtml/vite-plugin-sri/commit/daaecd2ebff58d10f2d3e6c4bad6b3f0c4db52eb)
+  Thanks [@rishvic](https://github.com/rishvic)! - Decode percent-encoded asset
+  URLs before bundle lookup so encoded paths resolve correctly
+
+- [#11](https://github.com/smoothtml/vite-plugin-sri/pull/11)
+  [`fe5d930`](https://github.com/smoothtml/vite-plugin-sri/commit/fe5d930043d458710af6015c6761e57fadbaf186)
+  Thanks [@rishvic](https://github.com/rishvic)! - Add THIRD-PARTY-NOTICES.txt
+  to the published package, carrying the MIT license and copyright for the
+  bundled Vite-derived code.
+
 ## 0.2.0
 
 ### Minor Changes
