@@ -6,12 +6,18 @@ import { createHash } from "crypto";
 import path from "path";
 import MagicString from "magic-string";
 import colors from "picocolors";
+import { compareHash, getComponentAlgo, type HashAlgorithm } from "./hash.ts";
 import { nodeIsElement, traverseHtml } from "./html.ts";
+import {
+  escapeAttribute,
+  splitAsciiWhitespace,
+  toAsciiLowercase,
+} from "./html-infra.ts";
 import type { OutputBundle } from "rolldown";
 import type { Logger } from "vite";
 
 export interface InjectSriOptions {
-  hashAlgorithm: "sha256" | "sha384" | "sha512";
+  hashAlgorithm: HashAlgorithm;
   bundle: OutputBundle;
   filename: string;
   htmlPath: string;
@@ -41,11 +47,6 @@ export async function injectSri(
         )
       )
     ) {
-      return;
-    }
-
-    // Skip elements with integrity attribute present.
-    if (attrs.some((attr) => attr.name === "integrity")) {
       return;
     }
 
@@ -98,20 +99,69 @@ export async function injectSri(
     const hash = createHash(opts.hashAlgorithm);
     hash.update(data);
     const digest = hash.digest("base64");
+    const integrityComponent = `${opts.hashAlgorithm}-${digest}`;
 
-    const startTagEndOffset = sourceCodeLocation?.startTag?.endOffset;
-    if (startTagEndOffset === undefined) {
-      opts.warn(
-        colors.yellow(
-          `Unable to find source code location of <${nodeName} ${sourceAttrName}="${sourceAttr.value}">`,
-        ),
+    const integrityAttr = attrs.find((attr) => attr.name === "integrity");
+    if (!integrityAttr) {
+      const startTagEndOffset = sourceCodeLocation?.startTag?.endOffset;
+      if (startTagEndOffset === undefined) {
+        throw new Error(
+          "[vite-plugin-sri] internal error, no location set for start tag in element",
+        );
+      }
+      const appendOffset = html[startTagEndOffset - 2] === "/" ? 2 : 1;
+      s.appendRight(
+        startTagEndOffset - appendOffset,
+        ` integrity=${escapeAttribute(integrityComponent)}`,
       );
       return;
     }
-    const appendOffset = html[startTagEndOffset - 2] === "/" ? 2 : 1;
-    s.appendRight(
-      startTagEndOffset - appendOffset,
-      ` integrity="${opts.hashAlgorithm}-${digest}"`,
+
+    const components = splitAsciiWhitespace(integrityAttr.value);
+
+    // Skip when our hash is already present, or when a stronger algorithm is.
+    // Per the SRI spec the browser validates against the strongest algorithm in
+    // the set and ignores the rest, so appending a weaker hash alongside a
+    // stronger one would have no effect.
+    if (
+      components.some((c) => {
+        if (c === integrityComponent) {
+          return true;
+        }
+        const h = getComponentAlgo(c);
+        return h !== undefined && compareHash(h, opts.hashAlgorithm) > 0;
+      })
+    ) {
+      return;
+    }
+
+    const integritySourceCodeLocation =
+      node.sourceCodeLocation?.attrs?.["integrity"];
+    if (!integritySourceCodeLocation) {
+      throw new Error(
+        "[vite-plugin-sri] internal error, no location set for integrity attribute in element",
+      );
+    }
+
+    const updatedIntegrityValue = components
+      .concat([integrityComponent])
+      .join(" ");
+    const integrityString = s.slice(
+      integritySourceCodeLocation.startOffset,
+      integritySourceCodeLocation.endOffset,
+    );
+    const equalOffset = integrityString.search(/=/);
+    if (equalOffset < 0) {
+      s.appendRight(
+        integritySourceCodeLocation.endOffset,
+        `=${escapeAttribute(updatedIntegrityValue)}`,
+      );
+      return;
+    }
+    s.update(
+      integritySourceCodeLocation.startOffset + equalOffset + 1,
+      integritySourceCodeLocation.endOffset,
+      escapeAttribute(updatedIntegrityValue),
     );
   });
 
@@ -128,10 +178,7 @@ export async function injectSri(
  */
 export function isSriEligibleRel(rel: string) {
   const acceptedKeywords = ["stylesheet", "preload", "modulepreload"];
-  return rel
-    .split(/[\t\n\f\r ]+/)
-    .filter(Boolean)
-    .some((v) =>
-      acceptedKeywords.includes(v.replace(/[A-Z]/g, (c) => c.toLowerCase())),
-    );
+  return splitAsciiWhitespace(rel).some((v) =>
+    acceptedKeywords.includes(toAsciiLowercase(v)),
+  );
 }
